@@ -2,7 +2,6 @@
 
 import { useTransition, useRef } from "react";
 import { createTask } from "@/lib/actions";
-import { PlusCircle } from "lucide-react";
 
 interface Props {
   projectId: number;
@@ -22,39 +21,54 @@ export function TaskForm({ projectId }: Props) {
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="mt-4 space-y-3">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className="flex flex-col sm:flex-row items-center gap-3 px-6 py-4 border-t border-dashed border-outline-variant/30 bg-white/50"
+    >
       <input type="hidden" name="project_id" value={projectId} />
-      <div className="flex flex-col gap-2 sm:flex-row">
+
+      {/* タスク名 */}
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <span className="material-symbols-outlined text-primary text-[22px] leading-none shrink-0">
+          add_task
+        </span>
         <input
           type="text"
           name="name"
-          placeholder="タスク名を入力"
           required
-          className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="次にやるべきことは？　新しいタスクをクイック追加..."
+          className="flex-1 bg-transparent border-none text-sm text-on-surface placeholder:text-outline/50 focus:outline-none focus:ring-0"
         />
-        <select
-          name="status"
-          defaultValue="todo"
-          className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="todo">未着手</option>
-          <option value="doing">作業中</option>
-          <option value="done">完了</option>
-        </select>
-        <input
-          type="date"
-          name="due_date"
-          className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          type="submit"
-          disabled={isPending}
-          className="flex items-center gap-1.5 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
-        >
-          <PlusCircle size={15} />
-          {isPending ? "追加中…" : "追加"}
-        </button>
       </div>
+
+      {/* ステータス */}
+      <select
+        name="status"
+        defaultValue="todo"
+        className="rounded-lg border border-outline-variant/30 bg-surface-container-low px-3 py-2 text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 shrink-0"
+      >
+        <option value="todo">未着手</option>
+        <option value="doing">作業中</option>
+        <option value="done">完了</option>
+      </select>
+
+      {/* 期日 */}
+      <input
+        type="date"
+        name="due_date"
+        className="rounded-lg border border-outline-variant/30 bg-surface-container-low px-3 py-2 text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 shrink-0"
+      />
+
+      {/* 追加ボタン */}
+      <button
+        type="submit"
+        disabled={isPending}
+        className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-50 shrink-0"
+      >
+        <span className="material-symbols-outlined text-[16px] leading-none">check</span>
+        {isPending ? "追加中..." : "追加"}
+      </button>
     </form>
   );
 }

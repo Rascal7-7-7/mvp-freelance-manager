@@ -17,9 +17,7 @@ export function TaskStatusSelect({ taskId, projectId, current }: Props) {
 
   function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const next = e.target.value as TaskStatus;
-    startTransition(() => {
-      updateTaskStatus(taskId, projectId, next);
-    });
+    startTransition(() => { updateTaskStatus(taskId, projectId, next); });
   }
 
   return (
@@ -27,12 +25,10 @@ export function TaskStatusSelect({ taskId, projectId, current }: Props) {
       value={current}
       onChange={handleChange}
       disabled={isPending}
-      className="rounded-md border border-gray-200 bg-white px-2 py-1 text-xs text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+      className="rounded-lg border border-outline-variant/30 bg-surface-container-low px-2 py-1 text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50 cursor-pointer"
     >
       {STATUS_OPTIONS.map((s) => (
-        <option key={s} value={s}>
-          {TASK_STATUS_LABEL[s]}
-        </option>
+        <option key={s} value={s}>{TASK_STATUS_LABEL[s]}</option>
       ))}
     </select>
   );
