@@ -12,7 +12,7 @@ export default async function ProjectsPage() {
   ]);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-8">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8">
       {/* ページヘッダー */}
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
@@ -33,7 +33,7 @@ export default async function ProjectsPage() {
       </div>
 
       {/* インサイトカード */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
         <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-4 shadow-sm">
           <p className="text-xs text-outline mb-1">進行中の売上合計</p>
           <p className="font-jakarta text-2xl font-black text-primary leading-none">
@@ -70,33 +70,34 @@ export default async function ProjectsPage() {
           </Link>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-outline-variant/20 bg-surface-container-lowest shadow-sm">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-xl border border-outline-variant/20 bg-surface-container-lowest shadow-sm">
+          <table className="w-full text-sm min-w-[520px]">
             <thead>
               <tr className="border-b border-outline-variant/15 bg-surface-container-low text-left text-[11px] text-outline">
-                <th className="px-5 py-3.5 font-bold">案件名</th>
-                <th className="px-4 py-3.5 font-bold">クライアント</th>
+                <th className="px-4 sm:px-5 py-3.5 font-bold">案件名</th>
+                <th className="px-4 py-3.5 font-bold hidden sm:table-cell">クライアント</th>
                 <th className="px-4 py-3.5 text-right font-bold">金額</th>
                 <th className="px-4 py-3.5 font-bold">ステータス</th>
-                <th className="px-4 py-3.5 font-bold">登録日</th>
+                <th className="px-4 py-3.5 font-bold hidden md:table-cell">登録日</th>
                 <th className="px-4 py-3.5"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
               {projects.map((p) => (
                 <tr key={p.id} className="transition-colors hover:bg-surface-container-low">
-                  <td className="px-5 py-4">
-                    <span className="font-semibold text-on-surface">{p.name}</span>
+                  <td className="px-4 sm:px-5 py-3.5">
+                    <p className="font-semibold text-on-surface leading-tight">{p.name}</p>
+                    <p className="text-xs text-outline sm:hidden mt-0.5">{p.client_name}</p>
                   </td>
-                  <td className="px-4 py-4 text-outline">{p.client_name}</td>
-                  <td className="px-4 py-4 text-right font-bold text-on-surface font-jakarta">
+                  <td className="px-4 py-3.5 text-outline hidden sm:table-cell">{p.client_name}</td>
+                  <td className="px-4 py-3.5 text-right font-bold text-on-surface font-jakarta whitespace-nowrap">
                     {formatPrice(p.price)}
                   </td>
-                  <td className="px-4 py-4">
+                  <td className="px-4 py-3.5">
                     <ProjectStatusBadge status={p.status} />
                   </td>
-                  <td className="px-4 py-4 text-outline text-xs">{formatDate(p.created_at)}</td>
-                  <td className="px-4 py-4 text-right">
+                  <td className="px-4 py-3.5 text-outline text-xs hidden md:table-cell">{formatDate(p.created_at)}</td>
+                  <td className="px-4 py-3.5 text-right">
                     <Link
                       href={`/projects/${p.id}`}
                       className="inline-flex items-center gap-0.5 text-xs font-semibold text-primary hover:underline"

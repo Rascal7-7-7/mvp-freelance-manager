@@ -3,7 +3,7 @@ import { createProject } from "@/lib/actions";
 
 export default function NewProjectPage() {
   return (
-    <div className="mx-auto max-w-2xl px-6 py-8">
+    <div className="mx-auto max-w-2xl px-4 sm:px-6 py-6 sm:py-8">
       {/* ページヘッダー */}
       <div className="mb-8">
         <Link

@@ -24,7 +24,7 @@ export default async function DashboardPage() {
   const hasPausedAlert = stats.paused_count > 0;
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-8">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8">
       {/* ページヘッダー */}
       <div className="mb-8">
         <p className="text-[10px] font-bold uppercase tracking-widest text-outline mb-1">
@@ -97,7 +97,7 @@ export default async function DashboardPage() {
                   </span>
                 </div>
               </div>
-              <div className="mt-5 flex items-center gap-6 text-sm">
+              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
                 <div>
                   <p className="text-white/60 text-xs mb-0.5">案件金額</p>
                   <p className="font-bold font-jakarta">{formatPrice(priorityProject.price)}</p>

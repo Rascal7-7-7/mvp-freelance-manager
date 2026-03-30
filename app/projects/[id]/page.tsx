@@ -27,7 +27,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   const doneCount = project.tasks.filter((t) => t.status === "done").length;
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-8">
+    <div className="mx-auto max-w-4xl px-4 sm:px-6 py-6 sm:py-8">
       {/* 戻るリンク */}
       <Link
         href="/projects"

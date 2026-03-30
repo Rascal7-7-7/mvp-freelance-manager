@@ -24,7 +24,7 @@ export function TaskForm({ projectId }: Props) {
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className="flex flex-col sm:flex-row items-center gap-3 px-6 py-4 border-t border-dashed border-outline-variant/30 bg-white/50"
+      className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 px-4 sm:px-6 py-4 border-t border-dashed border-outline-variant/30 bg-white/50"
     >
       <input type="hidden" name="project_id" value={projectId} />
 
