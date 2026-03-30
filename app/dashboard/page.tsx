@@ -66,6 +66,7 @@ export default async function DashboardPage() {
           value={formatPrice(stats.total_price)}
           icon="payments"
           accent
+          compact
           sub="全案件の合計"
         />
       </div>

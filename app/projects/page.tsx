@@ -34,22 +34,22 @@ export default async function ProjectsPage() {
       </div>
 
       {/* インサイトカード */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-3 sm:p-4 shadow-sm">
-          <p className="text-[10px] sm:text-xs text-outline mb-1 leading-tight">進行中の売上</p>
-          <p className="font-jakarta text-base sm:text-xl lg:text-2xl font-black text-primary leading-none break-all">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-5 sm:mb-6">
+        <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-3 sm:p-4 shadow-sm min-w-0">
+          <p className="text-[10px] text-outline mb-1 leading-tight truncate">進行中の売上</p>
+          <p className="font-jakarta text-sm sm:text-lg lg:text-2xl font-black text-primary leading-tight truncate">
             {formatPrice(summary.in_progress_total_price)}
           </p>
         </div>
-        <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-3 sm:p-4 shadow-sm">
-          <p className="text-[10px] sm:text-xs text-outline mb-1 leading-tight">今週期限</p>
-          <p className="font-jakarta text-base sm:text-xl lg:text-2xl font-black text-tertiary leading-none">
+        <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-3 sm:p-4 shadow-sm min-w-0">
+          <p className="text-[10px] text-outline mb-1 leading-tight">今週期限</p>
+          <p className="font-jakarta text-xl sm:text-2xl lg:text-3xl font-black text-tertiary leading-tight">
             {summary.due_this_week_count}件
           </p>
         </div>
-        <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-3 sm:p-4 shadow-sm">
-          <p className="text-[10px] sm:text-xs text-outline mb-1 leading-tight">保留中</p>
-          <p className="font-jakarta text-base sm:text-xl lg:text-2xl font-black text-on-surface leading-none">
+        <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-3 sm:p-4 shadow-sm min-w-0">
+          <p className="text-[10px] text-outline mb-1 leading-tight">保留中</p>
+          <p className="font-jakarta text-xl sm:text-2xl lg:text-3xl font-black text-on-surface leading-tight">
             {summary.paused_count}件
           </p>
         </div>
