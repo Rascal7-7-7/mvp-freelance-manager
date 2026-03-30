@@ -24,19 +24,19 @@ export default async function DashboardPage() {
   const hasPausedAlert = stats.paused_count > 0;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-5 sm:py-8">
       {/* ページヘッダー */}
-      <div className="mb-8">
+      <div className="mb-5 sm:mb-8">
         <p className="text-[10px] font-bold uppercase tracking-widest text-outline mb-1">
           Overview
         </p>
-        <h1 className="font-jakarta text-3xl font-black text-on-surface leading-tight">
+        <h1 className="font-jakarta text-2xl sm:text-3xl font-black text-on-surface leading-tight">
           Dashboard
         </h1>
       </div>
 
-      {/* KPI カード */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 mb-8">
+      {/* KPI カード — 2列固定、sm以上で4列 */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 sm:mb-8">
         <KpiCard
           label="進行中の案件"
           value={`${stats.in_progress_count}`}
@@ -46,7 +46,7 @@ export default async function DashboardPage() {
           sub="現在対応中"
         />
         <KpiCard
-          label="今週期限のタスク"
+          label="今週期限タスク"
           value={`${stats.due_this_week_count}`}
           icon="event_upcoming"
           iconBg="bg-tertiary/10"
@@ -70,46 +70,78 @@ export default async function DashboardPage() {
         />
       </div>
 
-      {/* メインレイアウト */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* 左 2/3: 案件エリア */}
+      {/* アラートバナー — 常に最上部、横並び */}
+      {(hasTodayAlert || hasPausedAlert) && (
+        <div className="flex flex-col sm:flex-row gap-3 mb-5 sm:mb-6">
+          {hasTodayAlert && (
+            <div className="flex items-start gap-3 rounded-xl bg-error-container p-3 sm:p-4 flex-1">
+              <span className="material-symbols-outlined text-[18px] leading-none text-error shrink-0 mt-0.5">
+                warning
+              </span>
+              <div>
+                <p className="text-xs font-bold text-error">本日期限のタスクあり</p>
+                <p className="text-xs text-error/80 mt-0.5">
+                  {stats.tasks_due_today_count}件のタスクが今日期限です
+                </p>
+              </div>
+            </div>
+          )}
+          {hasPausedAlert && (
+            <div className="flex items-start gap-3 rounded-xl bg-tertiary/10 p-3 sm:p-4 flex-1">
+              <span className="material-symbols-outlined text-[18px] leading-none text-tertiary shrink-0 mt-0.5">
+                pause_circle
+              </span>
+              <div>
+                <p className="text-xs font-bold text-tertiary">保留中の案件あり</p>
+                <p className="text-xs text-tertiary/80 mt-0.5">
+                  {stats.paused_count}件の案件が保留中です
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* メインレイアウト: モバイルは1列、lg以上で2/3 + 1/3 */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        {/* 左 2/3: 優先案件 + 進行中リスト */}
         <div className="lg:col-span-2 flex flex-col gap-4">
 
           {/* 優先案件カード（青グラデ） */}
           {priorityProject ? (
             <Link
               href={`/projects/${priorityProject.id}`}
-              className="block rounded-xl bg-gradient-to-br from-primary to-primary/70 p-6 text-white shadow-md hover:opacity-95 transition-opacity"
+              className="block rounded-xl bg-gradient-to-br from-primary to-primary/70 p-4 sm:p-6 text-white shadow-md hover:opacity-95 transition-opacity"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">
                     Priority Project
                   </p>
-                  <h2 className="font-jakarta text-xl font-black leading-tight truncate">
+                  <h2 className="font-jakarta text-lg sm:text-xl font-black leading-tight">
                     {priorityProject.name}
                   </h2>
-                  <p className="text-sm text-white/80 mt-0.5">{priorityProject.client_name}</p>
+                  <p className="text-xs sm:text-sm text-white/80 mt-0.5">{priorityProject.client_name}</p>
                 </div>
-                <div className="rounded-lg bg-white/20 p-2 shrink-0">
-                  <span className="material-symbols-outlined text-[22px] leading-none text-white">
+                <div className="rounded-lg bg-white/20 p-1.5 sm:p-2 shrink-0">
+                  <span className="material-symbols-outlined text-[18px] sm:text-[22px] leading-none text-white">
                     star
                   </span>
                 </div>
               </div>
-              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+              <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                 <div>
-                  <p className="text-white/60 text-xs mb-0.5">案件金額</p>
-                  <p className="font-bold font-jakarta">{formatPrice(priorityProject.price)}</p>
+                  <p className="text-white/60 text-[10px] mb-0.5">案件金額</p>
+                  <p className="text-sm font-bold font-jakarta">{formatPrice(priorityProject.price)}</p>
                 </div>
                 <div>
-                  <p className="text-white/60 text-xs mb-0.5">未完了タスク</p>
-                  <p className="font-bold font-jakarta">{priorityProject.pending_tasks}件</p>
+                  <p className="text-white/60 text-[10px] mb-0.5">未完了タスク</p>
+                  <p className="text-sm font-bold font-jakarta">{priorityProject.pending_tasks}件</p>
                 </div>
                 {priorityProject.earliest_due && (
                   <div>
-                    <p className="text-white/60 text-xs mb-0.5">最近の期日</p>
-                    <p className="font-bold font-jakarta">
+                    <p className="text-white/60 text-[10px] mb-0.5">最近の期日</p>
+                    <p className="text-sm font-bold font-jakarta">
                       {formatDate(priorityProject.earliest_due)}
                     </p>
                   </div>
@@ -136,16 +168,16 @@ export default async function DashboardPage() {
 
           {/* 進行中案件リスト */}
           <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest shadow-sm overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-outline-variant/15">
+            <div className="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-outline-variant/15">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] leading-none text-outline">
+                <span className="material-symbols-outlined text-[17px] leading-none text-outline">
                   folder_open
                 </span>
                 <h2 className="text-sm font-bold text-on-surface">進行中の案件</h2>
               </div>
               <Link
                 href="/projects"
-                className="flex items-center gap-1 text-xs text-primary hover:underline"
+                className="flex items-center gap-0.5 text-xs text-primary hover:underline"
               >
                 すべて見る
                 <span className="material-symbols-outlined text-[14px] leading-none">chevron_right</span>
@@ -159,14 +191,14 @@ export default async function DashboardPage() {
                   <Link
                     key={p.id}
                     href={`/projects/${p.id}`}
-                    className="flex items-center justify-between px-5 py-3.5 transition-colors hover:bg-surface-container-low"
+                    className="flex items-center justify-between px-4 sm:px-5 py-3 transition-colors hover:bg-surface-container-low"
                   >
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-on-surface">{p.name}</p>
                       <p className="text-xs text-outline">{p.client_name}</p>
                     </div>
-                    <div className="ml-4 shrink-0 text-right">
-                      <p className="text-sm font-bold text-on-surface font-jakarta">
+                    <div className="ml-3 shrink-0 text-right">
+                      <p className="text-sm font-bold text-on-surface font-jakarta whitespace-nowrap">
                         {formatPrice(p.price)}
                       </p>
                       <ProjectStatusBadge status={p.status} className="mt-0.5" />
@@ -178,41 +210,13 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* 右 1/3: アラート + タスク */}
+        {/* 右 1/3: 期限タスク + クイックアクション */}
         <div className="flex flex-col gap-4">
-          {/* アラートバナー */}
-          {hasTodayAlert && (
-            <div className="flex items-start gap-3 rounded-xl bg-error-container p-4">
-              <span className="material-symbols-outlined text-[18px] leading-none text-error shrink-0 mt-0.5">
-                warning
-              </span>
-              <div>
-                <p className="text-xs font-bold text-error">本日期限のタスクあり</p>
-                <p className="text-xs text-error/80 mt-0.5">
-                  {stats.tasks_due_today_count}件のタスクが今日期限です
-                </p>
-              </div>
-            </div>
-          )}
-          {hasPausedAlert && (
-            <div className="flex items-start gap-3 rounded-xl bg-tertiary/10 p-4">
-              <span className="material-symbols-outlined text-[18px] leading-none text-tertiary shrink-0 mt-0.5">
-                pause_circle
-              </span>
-              <div>
-                <p className="text-xs font-bold text-tertiary">保留中の案件あり</p>
-                <p className="text-xs text-tertiary/80 mt-0.5">
-                  {stats.paused_count}件の案件が保留中です
-                </p>
-              </div>
-            </div>
-          )}
-
           {/* 期限が近いタスク */}
-          <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest shadow-sm overflow-hidden flex-1">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-outline-variant/15">
+          <div className="rounded-xl border border-outline-variant/20 bg-surface-container-lowest shadow-sm overflow-hidden">
+            <div className="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-outline-variant/15">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] leading-none text-outline">
+                <span className="material-symbols-outlined text-[17px] leading-none text-outline">
                   schedule
                 </span>
                 <h2 className="text-sm font-bold text-on-surface">期限が近いタスク</h2>
@@ -233,13 +237,13 @@ export default async function DashboardPage() {
                       key={t.id}
                       href={`/projects/${t.project_id}`}
                       className={cn(
-                        "flex items-start gap-3 px-5 py-3 transition-colors hover:bg-surface-container-low",
+                        "flex items-start gap-3 px-4 sm:px-5 py-2.5 transition-colors hover:bg-surface-container-low",
                         overdue ? "task-urgent" : soon ? "task-soon" : ""
                       )}
                     >
                       <span
                         className={cn(
-                          "material-symbols-outlined text-[16px] leading-none shrink-0 mt-0.5",
+                          "material-symbols-outlined text-[15px] leading-none shrink-0 mt-0.5",
                           overdue ? "text-error" : soon ? "text-tertiary" : "text-outline"
                         )}
                       >
@@ -251,7 +255,7 @@ export default async function DashboardPage() {
                       </div>
                       <span
                         className={cn(
-                          "text-[10px] font-bold shrink-0",
+                          "text-[10px] font-bold shrink-0 whitespace-nowrap",
                           overdue ? "text-error" : soon ? "text-tertiary" : "text-outline"
                         )}
                       >
@@ -264,10 +268,10 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* アドバイスカード */}
-          <div className="rounded-xl bg-surface-container-low border border-outline-variant/20 px-5 py-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="material-symbols-outlined text-[16px] leading-none text-primary">
+          {/* クイックアクション */}
+          <div className="rounded-xl bg-surface-container-low border border-outline-variant/20 px-4 sm:px-5 py-4">
+            <div className="flex items-center gap-2 mb-2.5">
+              <span className="material-symbols-outlined text-[15px] leading-none text-primary">
                 tips_and_updates
               </span>
               <p className="text-xs font-bold text-on-surface">クイックアクション</p>

@@ -22,27 +22,27 @@ export function KpiCard({
   return (
     <div
       className={cn(
-        "p-4 sm:p-6 rounded-xl border border-outline-variant/20 shadow-sm",
+        "p-3 sm:p-4 lg:p-6 rounded-xl border border-outline-variant/20 shadow-sm",
         accent
           ? "bg-gradient-to-br from-surface-container-lowest to-primary-fixed/10"
           : "bg-surface-container-lowest"
       )}
     >
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <p className="text-xs sm:text-sm text-outline mb-1 truncate">{label}</p>
+      <div className="flex items-start justify-between gap-1.5">
+        <div className="min-w-0 flex-1">
+          <p className="text-[10px] sm:text-xs text-outline mb-1 leading-tight">{label}</p>
           <p
             className={cn(
-              "text-2xl sm:text-4xl font-black font-jakarta leading-none break-all",
+              "text-base sm:text-2xl lg:text-4xl font-black font-jakarta leading-none break-all",
               accent ? "text-primary" : "text-on-surface"
             )}
           >
             {value}
           </p>
-          {sub && <p className="text-xs text-outline mt-1.5">{sub}</p>}
+          {sub && <p className="text-[10px] sm:text-xs text-outline mt-1">{sub}</p>}
         </div>
-        <div className={cn("rounded-lg p-1.5 sm:p-2 shrink-0", iconBg)}>
-          <span className={cn("material-symbols-outlined text-[18px] sm:text-[22px] leading-none", iconColor)}>
+        <div className={cn("rounded-lg p-1.5 shrink-0", iconBg)}>
+          <span className={cn("material-symbols-outlined text-[16px] sm:text-[18px] leading-none", iconColor)}>
             {icon}
           </span>
         </div>
